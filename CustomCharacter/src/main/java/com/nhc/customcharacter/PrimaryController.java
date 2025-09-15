@@ -11,6 +11,9 @@ import com.nhc.services.FlyWeightFactory;
 import com.nhc.services.IEffect;
 import com.nhc.services.ShinyCardDecorator;
 import com.nhc.services.SimpleCard;
+import com.nhc.services.charactertheme.CharacterFactory;
+import com.nhc.services.charactertheme.FantasyCharacterFactory;
+import com.nhc.services.charactertheme.MordenCharacterFactory;
 import com.nhc.utils.themes.Theme;
 import java.io.IOException;
 import java.net.URL;
@@ -44,6 +47,7 @@ public class PrimaryController implements Initializable {
     @FXML
     TextField txtName;
     @FXML ComboBox<Theme> cbTheme;
+    @FXML ComboBox<CharacterFactory> cbFac;
     
 
     private static final CardServices cardServices = new CardServices();
@@ -59,10 +63,10 @@ public class PrimaryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            this.cbChar.setItems(FXCollections.observableList(charServices.list()));
-            this.cbBorder.setItems(FXCollections.observableList(borderServices.list()));
+            this.cbBorder.setItems(FXCollections.observableList(FlyWeightFactory.getData(borderServices, "border")));
             this.tbCard.setItems(FXCollections.observableList(FlyWeightFactory.getData(cardServices, "card")));
             this.cbTheme.setItems(FXCollections.observableArrayList(Theme.values()));
+            this.cbFac.setItems(FXCollections.observableArrayList(new FantasyCharacterFactory(), new MordenCharacterFactory()));
             this.loadColumns();
         } catch (SQLException ex) {
             Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,4 +112,7 @@ public class PrimaryController implements Initializable {
         this.cbTheme.getSelectionModel().getSelectedItem().updateTheme(this.cbTheme.getScene());
     }
     
+    public void handleChangeCharacterTheme(ActionEvent e){
+        this.cbFac.getSelectionModel().getSelectedItem().loadCharComboBox(cbChar);
+    }
 }

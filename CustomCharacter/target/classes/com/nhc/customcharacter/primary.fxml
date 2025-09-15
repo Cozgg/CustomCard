@@ -30,6 +30,7 @@
             </HBox>
          </children>
       </VBox>
+      <ComboBox fx:id="cbFac" onAction="#handleChangeCharacterTheme" prefWidth="150.0" promptText="Chu de" />
       <ComboBox fx:id="cbTheme" onAction="#handleChangeTheme" prefWidth="150.0" promptText="Giao dien" />
       <Button mnemonicParsing="false" onAction="#handleAddCard" text="Dat hang" />
       <TableView fx:id="tbCard" prefHeight="200.0" prefWidth="200.0" />
