@@ -37,4 +37,24 @@ public class CardServices extends BaseServices<Card>{
         }
         return cards;
     }
+    
+    public boolean addCard(Card c) throws SQLException{
+        String sql = "INSERT INTO card(name, mota, id_character, id_border, atk) VALUES(?,?,?,?,?)";
+        
+        Connection conn = MyConnector.getInstance().connect();
+        conn.setAutoCommit(false);
+        PreparedStatement stm = conn.prepareCall(sql);
+        stm.setString(1, c.getName());
+        stm.setString(2, c.getMoTa());
+        stm.setInt(3, c.getCharacter().getId());
+        stm.setInt(4, c.getBorder().getId());
+        stm.setInt(5, c.getAtk());
+        if(stm.executeUpdate() > 0){
+            conn.commit();
+            return true;
+        } else{
+            conn.rollback();
+            return false;
+        }
+    }
 }

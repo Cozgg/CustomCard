@@ -37,6 +37,7 @@ public class Card {
 
         public Builder(String name) {
             this.name = name;
+            this.atk = 0;
         }
         public Builder(int id, String name) {
             this.id = id;
